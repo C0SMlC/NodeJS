@@ -16,6 +16,6 @@ const server = http.createServer((req, res) => {
   // res.writeHead(200, { "Content-Type": "text/plain" }); equivalent above used method
 });
 
-server.listen(2000, () => {
+server.listen(2000, () => { 
   console.log("Server is running on port 2000");
 });
