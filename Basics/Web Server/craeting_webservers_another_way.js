@@ -3,6 +3,8 @@ const server = http.createServer((req, res) => {
   if (req.url === "/text") {
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/plain");
+    // res.writeHead(200, { "Content-Type": "text/plain" }); equivalent above used method
+
     res.end("Hello World");
   } else {
     res.statusCode = 200;
@@ -13,9 +15,8 @@ const server = http.createServer((req, res) => {
     res.write("</html>");
     res.end();
   }
-  // res.writeHead(200, { "Content-Type": "text/plain" }); equivalent above used method
 });
 
-server.listen(2000, () => { 
+server.listen(2000, () => {
   console.log("Server is running on port 2000");
 });
