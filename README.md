@@ -17,3 +17,4 @@ The folder Module-1 contains following things:
 4. Routing in NodeJS
 5. Node-Farm Project - Involves basic file retriving and dynamic changes in the website, key concept and module is fs mmodule
 6. How Event loop works(not explained yet)
+7. Stremas and Pipe method
