@@ -4,6 +4,8 @@ const server = require('http').createServer();
 const readable = fs.createReadStream('./test.txt', { encoding: 'utf8' });
 
 /// rather than loading all the data in main memory data is loadded in the form of chunks
+
+
 readable.on('data', (chunk) => {
   console.log(chunk);
 });
@@ -17,7 +19,7 @@ readable.on('data', (chunk) => {
 // which can lead to increased memory usage and, ultimately, crashes or other errors in the application.
 //hence we use pipe method which is used to read data from a readable stream and write it to a writable stream.
 
-//readable source.pipe(writeble destination)  IMPORTANT IMP:
+//readable source.pipe(writeble destination) IMP:
 
 server.on('request', (req, res) => {
   readable.pipe(res);
