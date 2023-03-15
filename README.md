@@ -18,3 +18,7 @@ The folder Module-1 contains following things:
 5. Node-Farm Project - Involves basic file retriving and dynamic changes in the website, key concept and module is fs mmodule
 6. How Event loop works(not explained yet)
 7. Stremas and Pipe method
+
+The Folder Natours Project Is REST API implementation, As I will be working on same folder for couple of moneths, I will update the main concepts here
+1. As on 15 MArch 2023, The key concepts that I learned while working on this project are, GET, POST, PATCH requests, I have tried my best to explain things in comments of the project file(app.js)
+2. Another key concept is Middleware, which is basically the intermediate of request and response
