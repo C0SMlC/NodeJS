@@ -2,12 +2,12 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 
-const PORT = 3000;
 
 const tourRouter = require('./Routes/tourRoutes');
 const userRouter = require('./Routes/userRoutes');
 
 // Midlleware stands between the request and response IMP:
+// Converts res into JSON
 app.use(express.json());
 
 app.use(morgan('dev'));
@@ -36,6 +36,5 @@ app.use('/api/v1/users', userRouter);
 // app.patch('/api/v1/tours/:id', updateTour);
 // app.delete('/api/v1/tours/:id', deleteTour);
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+
+module.exports = app;
