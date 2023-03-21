@@ -1,7 +1,8 @@
 const express = require('express');
-const app = express();
-const morgan = require('morgan');
 
+const app = express();
+
+const morgan = require('morgan');
 
 const tourRouter = require('./Routes/tourRoutes');
 const userRouter = require('./Routes/userRoutes');
@@ -35,6 +36,5 @@ app.use('/api/v1/users', userRouter);
 // app.post('/api/v1/tours', addTour);
 // app.patch('/api/v1/tours/:id', updateTour);
 // app.delete('/api/v1/tours/:id', deleteTour);
-
 
 module.exports = app;
