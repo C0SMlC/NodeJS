@@ -7,7 +7,8 @@ const morgan = require('morgan');
 const tourRouter = require('./Routes/tourRoutes');
 const userRouter = require('./Routes/userRoutes');
 
-// Midlleware stands between the request and response IMP:
+// Midlleware stands between the request and response
+//IMP:
 // Converts res into JSON
 app.use(express.json());
 
