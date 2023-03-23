@@ -20,5 +20,12 @@ The folder Module-1 contains following things:
 7. Stremas and Pipe method
 
 The Folder Natours Project Is REST API implementation, As I will be working on same folder for couple of moneths, I will update the main concepts here
-1. As on 15 MArch 2023, The key concepts that I learned while working on this project are, GET, POST, PATCH requests, I have tried my best to explain things in comments of the project file(app.js)
+1. As on 15 March 2023, The key concepts that I learned while working on this project are, GET, POST, PATCH requests, I have tried my best to explain things in comments of the project file(app.js)
 2. Another key concept is Middleware, which is basically the intermediate of request and response
+
+
+## MongoDB
+The problems I faced while installing MongoDB
+1. Starting from version 6, the command to start Mongo server is 'mongod' and not 'mongo'.
+2. Need to install MongoShell separately, no longer included with MongoDB.
+3. To start mongoShell use command 'mongosh'
