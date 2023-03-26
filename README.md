@@ -29,3 +29,14 @@ The problems I faced while installing MongoDB
 1. Starting from version 6, the command to start Mongo server is 'mongod' and not 'mongo'.
 2. Need to install MongoShell separately, no longer included with MongoDB.
 3. To start mongoShell use command 'mongosh'
+
+Concepts :
+
+### Schema and Model
+
+1. const tourSchema = new mongoose.Schema(), this statement will create a blueprint just like classes.
+2. Now we can create model based on the above schema
+3. To create a model const name = mongoose.model('modelname', blueprintName);
+4. Now we can create instances based on the above model, just like we create instances of classes in JS.
+5. To create instance, const name = new modelName(data);
+
