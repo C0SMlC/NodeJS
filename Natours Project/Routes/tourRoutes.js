@@ -4,7 +4,7 @@ const tourController = require('../controller/tourController');
 
 const tourRouter = express.Router();
 
-tourRouter.param('id', tourController.CheckId);
+// tourRouter.param('id', tourController.CheckId);
 
 const middleware = (req, res, next) => {
   if (!req.body.name || !req.body.rollno) {

@@ -26,44 +26,48 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-const tourSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: [true, 'A tour must have a name'],
-      unique: true,
-    },
+// PART:
 
-    rating: {
-      type: Number,
-      default: 4.5,
-    },
-    price: {
-      type: Number,
-      required: [true, 'A tour must have a price'],
-    },
-  },
-  {
-    collection: 'tours', // specify the name of the collection to use
-  }
-);
+// const tourSchema = new mongoose.Schema(
+//   {
+//     name: {
+//       type: String,
+//       required: [true, 'A tour must have a name'],
+//       unique: true,
+//     },
 
-const Tour = mongoose.model('Tour', tourSchema);
+//     rating: {
+//       type: Number,
+//       default: 4.5,
+//     },
+//     price: {
+//       type: Number,
+//       required: [true, 'A tour must have a price'],
+//     },
+//   },
+//   {
+//     collection: 'tours', // specify the name of the collection to use
+//   }
+// );
 
-const testTour = new Tour({
-  name: 'The Forest Hiker',
-  rating: 5,
-  price: 1000,
-});
+// const Tour = mongoose.model('Tour', tourSchema);
 
-testTour
-  .save()
-  .then((doc) => {
-    console.log(doc);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+// const testTour = new Tour({
+//   name: 'The Forest Hiker',
+//   rating: 5,
+//   price: 1000,
+// });
+
+// testTour
+//   .save()
+//   .then((doc) => {
+//     console.log(doc);
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+
+// PART:
 
 // Environemt variable, by default development
 
