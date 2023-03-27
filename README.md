@@ -40,3 +40,17 @@ Concepts :
 4. Now we can create instances based on the above model, just like we create instances of classes in JS.
 5. To create instance, const name = new modelName(data);
 
+## MVC Architecture
+
+The goal of the architecture is to spilt a big application into specific sections which have their own purpose.
+
+The three main sections are:
+1. Controller
+2. Model
+3. View
+
+-> The Controller handles request flow, and never worries about data flow (or database).
+-> The Model handles data flow, and never worries about request flow.
+-> The View handles data presentation, and send dynamically rendered presentation(HTML) to controller.
+
+[Refer this video on YouTube that helped me in understanding the concept](https://youtu.be/DUg2SWWK18I)
