@@ -8,7 +8,7 @@ dotenv.config({
   path: './config.env',
 });
 
-const PORT = 5000;
+const PORT = 3000;
 
 mongoose
   .connect(process.env.DATABASE, {
