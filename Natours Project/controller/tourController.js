@@ -92,7 +92,7 @@ exports.updateTour = async (req, res) => {
   }
 };
 
-exports.deleteTour = (req, res) => {
+exports.deleteTour = async (req, res) => {
   // const tour = tours.find((tour) => tour.id === parseInt(req.params.id));
   // if (!tour) {
   //   return res.status(404).json({
@@ -100,8 +100,17 @@ exports.deleteTour = (req, res) => {
   //     message: 'Invalid ID',
   //   });
   // }
-  res.status(204).json({
-    status: 'success',
-    data: null,
-  });
+  try {
+    const removedObject = await Tour.findByIdAndDelete(req.params.id);
+    // 204 stztus code indicates no contennt
+    res.status(204).json({
+      status: 'success',
+      data: null,
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    });
+  }
 };
