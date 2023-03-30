@@ -19,6 +19,12 @@ exports.getAllTours = async (req, res) => {
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
     excludedFields.forEach((el) => delete queryObject[el]);
 
+    // const allTours = await Tour.find() another way of doing same thing
+    //   .where(duration)
+    //   .equals(5)
+    //   .where('difficulty')
+    //   .equals('easy');
+
     // Advance Filtering
 
     let querystr = JSON.stringify(queryObject);
@@ -26,16 +32,34 @@ exports.getAllTours = async (req, res) => {
     // \b flag is to make sure only exact words are replaced
     querystr = querystr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
 
-    const allTours = Tour.find(JSON.parse(querystr));
+    let allTours = Tour.find(JSON.parse(querystr));
 
-    // const allTours = await Tour.find() another way of doing same thing
-    //   .where(duration)
-    //   .equals(5)
-    //   .where('difficulty')
-    //   .equals('easy');
+    if (req.query.sort) {
+      //Now what if there are multiple documents with same pricw
+      // Then there should be another parameter to sort document
+      // And that is easy as mongoose provides an easy solution for this
+      // all we gotta do is  pass another entry separated by space
+      // For Example- IMP: allTours.sort('price anotherFactor');
+      /// Now We can not add space in url so we use comma
+      //and hence
+      // URL 127.0.0.1:3000/api/v1/tours?sort=-price,-ratingaverage
+      const sortBy = req.query.sort.split(',').join(' ');
+      allTours = allTours.sort(sortBy);
+    } else {
+      allTours = allTours.sort('-createdAt');
+    }
+
+    if (req.query.fields) {
+      // same as sort
+      const fields = req.query.fields.split(',').join(' ');
+      allTours = allTours.select(fields);
+    } else {
+      // - to exclude
+      allTours = allTours.select('-__v');
+    }
 
     const tours = await allTours;
-    console.log(tours);
+    // console.log(tours);
     res.status(200).json({
       status: 'success',
       results: tours.length,

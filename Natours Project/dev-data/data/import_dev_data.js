@@ -18,7 +18,7 @@ mongoose
   })
   .then((con) => {
     console.log('DB connection successful');
-    console.log(con.connections);
+    // console.log(con.connections);
   });
 
 const tours = JSON.parse(fs.readFileSync(`tours-simple.json`, 'utf-8'));
