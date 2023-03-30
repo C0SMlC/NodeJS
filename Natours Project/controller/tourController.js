@@ -14,7 +14,19 @@ const Tour = require('../modals/tourModel');
 
 exports.getAllTours = async (req, res) => {
   try {
-    const allTours = await Tour.find();
+    // console.log(req.query);
+    const queryObject = { ...req.query };
+    const excludedFields = ['page', 'sort', 'limit', 'fields'];
+    excludedFields.forEach((el) => delete queryObject[el]);
+
+    const allTours = await Tour.find(queryObject);
+
+    // const allTours = await Tour.find() another way of doing same thing
+    //   .where(duration)
+    //   .equals(5)
+    //   .where('difficulty')
+    //   .equals('easy');
+
     res.status(200).json({
       status: 'success',
       results: allTours.length,
