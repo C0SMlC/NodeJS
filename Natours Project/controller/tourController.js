@@ -19,7 +19,14 @@ exports.getAllTours = async (req, res) => {
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
     excludedFields.forEach((el) => delete queryObject[el]);
 
-    const allTours = await Tour.find(queryObject);
+    // Advance Filtering
+
+    let querystr = JSON.stringify(queryObject);
+
+    // \b flag is to make sure only exact words are replaced
+    querystr = querystr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
+
+    const allTours = Tour.find(JSON.parse(querystr));
 
     // const allTours = await Tour.find() another way of doing same thing
     //   .where(duration)
@@ -27,11 +34,13 @@ exports.getAllTours = async (req, res) => {
     //   .where('difficulty')
     //   .equals('easy');
 
+    const tours = await allTours;
+    console.log(tours);
     res.status(200).json({
       status: 'success',
-      results: allTours.length,
+      results: tours.length,
       data: {
-        allTours,
+        tours,
       },
     });
   } catch (err) {
