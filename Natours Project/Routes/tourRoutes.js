@@ -17,6 +17,10 @@ const tourRouter = express.Router();
 // };
 
 tourRouter
+  .route('/top-5-tours')
+  .get(tourController.aliasTopTours, tourController.getAllTours);
+
+tourRouter
   .route('/')
   .get(tourController.getAllTours)
   .post(tourController.addTour);
