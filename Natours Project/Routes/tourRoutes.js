@@ -16,6 +16,8 @@ const tourRouter = express.Router();
 //   next();
 // };
 
+tourRouter.route('/tour-stats').get(tourController.getTourStats);
+
 tourRouter
   .route('/top-5-tours')
   .get(tourController.aliasTopTours, tourController.getAllTours);

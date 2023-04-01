@@ -129,3 +129,66 @@ exports.deleteTour = async (req, res) => {
     });
   }
 };
+
+exports.getTourStats = async (req, res) => {
+  try {
+    const stats = await Tour.aggregate([
+      {
+        $match: { ratingaverage: { $gte: 4.5 } },
+      },
+      {
+        $group: {
+          _id: { $toUpper: '$difficulty' }, // based on id stats for each entry in difficulllty
+          numTours: { $sum: 1 },
+          numRatings: { $sum: '$ratingsQuantity' },
+          avgRating: { $avg: '$ratingaverage' },
+          avgPrice: { $avg: '$price' },
+          minPrice: { $min: '$price' },
+          maxPrice: { $max: '$price' },
+        },
+      },
+      {
+        $sort: { avgPrice: 1 },
+      },
+    ]);
+    res.status(200).json({
+      status: 'success',
+      data: {
+        statsa: stats,
+      },
+    });
+    //OUTPUT
+    //     {
+    //     "_id": "difficult",
+    //     "numTours": 2,
+    //     "numRatings": 41,
+    //     "avgRating": 4.5,
+    //     "avgPrice": 1997,
+    //     "minPrice": 997,
+    //     "maxPrice": 2997
+    // },
+    // {
+    //     "_id": "easy",
+    //     "numTours": 3,
+    //     "numRatings": 126,
+    //     "avgRating": 4.5,
+    //     "avgPrice": 1197,
+    //     "minPrice": 397,
+    //     "maxPrice": 1997
+    // },
+    // {
+    //     "_id": "medium",
+    //     "numTours": 3,
+    //     "numRatings": 70,
+    //     "avgRating": 4.666666666666667,
+    //     "avgPrice": 1663.6666666666667,
+    //     "minPrice": 497,
+    //     "maxPrice": 2997
+    // }
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    });
+  }
+};
