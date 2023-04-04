@@ -121,3 +121,26 @@ tourSchema.post(/^find/, function (doc, next) {
 const Tour = mongoose.model('Tour', tourSchema);
 
 module.exports = Tour;
+
+//////////////////////////////////////////////////////
+
+//////////---------Aggregation Middleware--------///////////
+
+//////////////////////////////////////////////////////
+
+// customerSchema.pre('aggregate', function () {
+//   // Add a $match state to the beginning of each pipeline.
+//   this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+// });
+
+tourSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({
+    $match: {
+      isSecretTour: {
+        $ne: true,
+      },
+    },
+  });
+  console.log(this.pipeline());
+  // next();
+});

@@ -194,6 +194,8 @@ exports.getTourStats = async (req, res) => {
   }
 };
 
+///// Aggregation
+
 exports.getMonthlyStats = async (req, res) => {
   try {
     const year = req.params.year * 1;
