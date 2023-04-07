@@ -24,6 +24,15 @@ app.use((req, res, next) => {
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 
+// responding to unhadnled routes
+app.all('*', (req, res, next) => {
+  res.status(404).json({
+    status: 'fail',
+    message: `Can't find ${req.originalUrl} on this server`,
+  });
+  // next(new AppError(`Can't find ${req.originalUrl} on this server`,404))
+});
+
 //callbacks
 
 // Route: /api/v1/tours/:id
