@@ -25,12 +25,15 @@ app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 
 // responding to unhadnled routes
+// * is used to select all other undefined route
+// will only be executed after above 2 middlewares
 app.all('*', (req, res, next) => {
   res.status(404).json({
     status: 'fail',
     message: `Can't find ${req.originalUrl} on this server`,
   });
   // next(new AppError(`Can't find ${req.originalUrl} on this server`,404))
+  next();
 });
 
 //callbacks
