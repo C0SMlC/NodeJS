@@ -1,4 +1,35 @@
 # NodeJS
+
+## Technologies Used
+Node.js
+Express.js
+MongoDB (or any other database technology mentioned in the project)
+
+## Prerequisites
+Before running this project locally, make sure you have the following prerequisites installed on your machine:
+
+Node.js: Download and install Node.js.
+MongoDB: Download and install MongoDB (if applicable).
+
+## Installation
+Follow these steps to get the project up and running on your local machine:
+
+Clone this repository to your local machine using the following command:
+git clone https://github.com/your-username/your-repo.git
+
+Navigate to the project's directory:
+cd your-repo
+
+Install the project dependencies by running the following command:
+npm install
+
+Start the application:
+npm start
+This command will start the Node.js server and make your application accessible at http://localhost:3000/. Adjust the port number if necessary.
+
+Open your web browser and visit http://localhost:3000/ to see the running application.
+
+## About 
 The repo contains the code and explanation in form of commands of NodeJS, this is part of course i am currently doing, I will try to make everything clear in comments.
 Thank You :)
 
