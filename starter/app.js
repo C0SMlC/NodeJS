@@ -1,7 +1,13 @@
 const express = require('express');
+const morgan = require('morgan');
 const fs = require('fs');
 
 const app = express();
+
+//Logging request details to console
+app.use(morgan('dev'));
+
+// body parser
 app.use(express.json());
 
 const tours = JSON.parse(

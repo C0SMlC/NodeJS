@@ -3,7 +3,7 @@ const server = http.createServer((req, res) => {
   if (req.url === "/text") {
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/plain");
-    // res.writeHead(200, { "Content-Type": "text/plain" }); equivalent above used method
+    // res.writeHead(200, { "Content-Type": "text/plain" }); equivalent to above used method
 
     res.end("Hello World");
   } else {
