@@ -27,9 +27,9 @@ app.get('/api/v1/tours', (req, res) => {
 });
 
 app.get('/api/v1/tours/:id', (req, res) => {
-  const id = req.params.id;
+  const id = req.params.id * 1;
   const tour = tours.find((tour) => tour.id === id);
-  if (!id) {
+  if (!tour) {
     return res.status(404).json({
       status: 'failed',
       message: 'Not Found',
@@ -64,6 +64,36 @@ app.post('/api/v1/tours', (req, res) => {
     data: {
       tours: tours,
     },
+  });
+});
+
+app.patch('/api/v1/tours/:id', (req, res) => {
+  const id = req.params.id * 1;
+  const tour = tours.find((tour) => tour.id === id);
+  if (!tour) {
+    return res.status(404).json({
+      status: 'failed',
+      message: 'Not Found',
+    });
+  }
+  res.status(200).json({
+    status: 'success',
+    message: 'Tour Updated Successfully',
+  });
+});
+
+app.delete('/api/v1/tours/:id', (req, res) => {
+  const id = req.params.id * 1;
+  const tour = tours.find((tour) => tour.id === id);
+  if (!tour) {
+    return res.status(404).json({
+      status: 'failed',
+      message: 'Not Found',
+    });
+  }
+  res.status(204).json({
+    status: 'success',
+    data: null,
   });
 });
 
