@@ -96,19 +96,78 @@ const deleteTour = (req, res) => {
   });
 };
 
+// This line of code creates a new instance of an Express router by calling the express.Router() method. The router is essentially a mini Express application that can be used to handle routes and middleware.
+const tourRouter = express.Router();
+
+tourRouter.route('/').get(getAllTours).post(createTour);
+tourRouter.route('/:id').get(getTour).patch(updateTour).delete(deleteTour);
+
+// Mounting
+// In the context of Express.js, "mounting" refers to attaching a router or middleware to a specific path or URL within the application
+app.use('/api/v1/tours', tourRouter);
+
 // app.get('/api/v1/tours', getAllTours);
 // app.get('/api/v1/tours/:id', getTour);
 // app.post('/api/v1/tours', createTour);
 // app.patch('/api/v1/tours/:id', updateTour);
 // app.delete('/api/v1/tours/:id', deleteTour);
 
-app.route('/api/v1/tours').get(getAllTours).post(createTour);
-app
-  .route('/api/v1/tours/:id')
-  .get(getTour)
-  .patch(updateTour)
-  .delete(deleteTour);
+// Users
 
+const getUsers = (req, res) => {
+  //internal server error
+  res.status(500).json({
+    // JSEND format
+    status: 'error',
+    result: 'This route is not yet defined !!!',
+  });
+};
+
+const getUser = (req, res) => {
+  //internal server error
+  res.status(500).json({
+    // JSEND format
+    status: 'error',
+    result: 'This route is not yet defined !!!',
+  });
+};
+const updateUser = (req, res) => {
+  //internal server error
+  res.status(500).json({
+    // JSEND format
+    status: 'error',
+    result: 'This route is not yet defined !!!',
+  });
+};
+const createUser = (req, res) => {
+  //internal server error
+  res.status(500).json({
+    // JSEND format
+    status: 'error',
+    result: 'This route is not yet defined !!!',
+  });
+};
+const deleteUser = (req, res) => {
+  //internal server error
+  res.status(500).json({
+    // JSEND format
+    status: 'error',
+    result: 'This route is not yet defined !!!',
+  });
+};
+
+const userRouter = express.Router();
+app.use('/api/v1/users', userRouter);
+
+app.route('/api/v1/users').get(getUsers).post(createUser);
+
+app
+  .route('/api/v1/users/:id')
+  .get(getUser)
+  .patch(updateUser)
+  .delete(deleteUser);
+
+// server
 const port = 3000;
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
