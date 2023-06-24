@@ -86,13 +86,32 @@ exports.getTour = async (req, res) => {
   }
 };
 
-exports.updateTour = (req, res) => {
-  // const id = req.params.id * 1;
-  // const tour = tours.find((tour) => tour.id === id);
-  res.status(200).json({
-    status: 'success',
-    message: 'Tour Updated Successfully',
-  });
+exports.updateTour = async (req, res) => {
+  try {
+
+    console.log(req.body);
+
+    const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
+      // To return new updqated document
+      new: true,
+      runValidators: true,
+    });
+
+    console.log(tour);
+
+    res.status(200).json({
+      // JSEND format
+      status: 'success',
+      data: {
+        tour: tour,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'Failed',
+      message: err,
+    });
+  }
 };
 
 exports.deleteTour = (req, res) => {
