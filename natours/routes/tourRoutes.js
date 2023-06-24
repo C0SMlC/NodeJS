@@ -5,7 +5,7 @@ const tourController = require('../controller/tourController');
 const router = express.Router();
 
 // A special kind of middleware that runs only if a specified parameter s present in the url
-router.param('id', tourController.checkId);
+// router.param('id', tourController.checkId);
 
 // router.use(checkBody);
 
