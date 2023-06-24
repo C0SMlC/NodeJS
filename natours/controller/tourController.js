@@ -88,16 +88,11 @@ exports.getTour = async (req, res) => {
 
 exports.updateTour = async (req, res) => {
   try {
-
-    console.log(req.body);
-
     const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
       // To return new updqated document
       new: true,
       runValidators: true,
     });
-
-    console.log(tour);
 
     res.status(200).json({
       // JSEND format
@@ -114,12 +109,18 @@ exports.updateTour = async (req, res) => {
   }
 };
 
-exports.deleteTour = (req, res) => {
-  // const id = req.params.id * 1;
-  // const tour = tours.find((tour) => tour.id === id);
+exports.deleteTour = async (req, res) => {
+  try {
+    await Tour.findByIdAndDelete(req.params.id);
 
-  res.status(204).json({
-    status: 'success',
-    data: null,
-  });
+    res.status(204).json({
+      status: 'success',
+      data: null,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'Failed',
+      message: err,
+    });
+  }
 };
