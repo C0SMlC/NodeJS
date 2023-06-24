@@ -37,15 +37,16 @@ exports.getAllTours = (req, res) => {
 
 exports.createTour = (req, res) => {
   const newid = tours[tours.length - 1].id + 1;
-  const newTour = Object.assign({ id: newid }, req.body);
+  const newTour = { ...req.body, id: newid };
+
   tours.push(newTour);
 
   fs.writeFile(
     `${__dirname}/../dev-data/data/tours-simple.json`,
-    JSON.stringify(tours),
-    (err) => {
-      console.log(err);
-    }
+    JSON.stringify(tours)
+    // (err) => {
+    //   console.log(err);
+    // }
   );
   res.status(201).json({
     // JSEND format
@@ -59,7 +60,7 @@ exports.createTour = (req, res) => {
 
 exports.getTour = (req, res) => {
   const id = req.params.id * 1;
-  const tour = tours.find((tour) => tour.id === id);
+  const tour = tours.find((entry) => entry.id === id);
 
   res.status(200).json({
     // JSEND format
@@ -71,8 +72,8 @@ exports.getTour = (req, res) => {
 };
 
 exports.updateTour = (req, res) => {
-  const id = req.params.id * 1;
-  const tour = tours.find((tour) => tour.id === id);
+  // const id = req.params.id * 1;
+  // const tour = tours.find((tour) => tour.id === id);
   res.status(200).json({
     status: 'success',
     message: 'Tour Updated Successfully',
@@ -80,8 +81,8 @@ exports.updateTour = (req, res) => {
 };
 
 exports.deleteTour = (req, res) => {
-  const id = req.params.id * 1;
-  const tour = tours.find((tour) => tour.id === id);
+  // const id = req.params.id * 1;
+  // const tour = tours.find((tour) => tour.id === id);
 
   res.status(204).json({
     status: 'success',
