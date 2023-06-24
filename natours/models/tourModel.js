@@ -17,7 +17,7 @@ const tourSchema = new mongoose.Schema({
   },
 });
 
-const Tour = mongoose.model('Tourj', tourSchema);
+const Tour = mongoose.model('Tour', tourSchema);
 
 // const testTour = new Tour({
 //   name: 'The Forest Hiker',
