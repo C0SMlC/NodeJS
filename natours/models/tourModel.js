@@ -19,15 +19,15 @@ const tourSchema = new mongoose.Schema({
 
 const Tour = mongoose.model('Tourj', tourSchema);
 
-const testTour = new Tour({
-  name: 'The Forest Hiker',
-  rating: 4.2,
-  price: 297,
-});
+// const testTour = new Tour({
+//   name: 'The Forest Hiker',
+//   rating: 4.2,
+//   price: 297,
+// });
 
-testTour
-  .save()
-  .then((doc) => console.log(doc))
-  .catch((err) => console.log(err));
+// testTour
+//   .save()
+//   .then((doc) => console.log(doc))
+//   .catch((err) => console.log(err));
 
 module.exports = Tour;
