@@ -28,11 +28,22 @@ const Tour = require('./../models/tourModel');
 
 exports.getAllTours = async (req, res) => {
   try {
+    // console.log(req.query);
     // Building Query
+    // Filtering
     const queryObj = { ...req.query };
     const excludedFileds = ['page', 'sort', 'limit', 'fields'];
     excludedFileds.forEach((el) => delete queryObj[el]);
-    const query = Tour.find(queryObj);
+
+    // Advance Filtering
+    let queryStr = JSON.stringify(queryObj);
+    //  \b tag to select exact words and /g flag for replacing multiple words
+    queryStr = queryStr.replace(
+      /\b(gte|lte|gt|lt|ne|in)\b/g,
+      (match) => `$${match}`
+    );
+
+    const query = Tour.find(JSON.parse(queryStr));
 
     // const tours = await Tour.find()
     //   .where(duration)
