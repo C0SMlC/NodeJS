@@ -29,6 +29,11 @@ const Tour = require('./../models/tourModel');
 exports.getAllTours = async (req, res) => {
   try {
     // console.log(req.query);
+    // const tours = await Tour.find()
+    //   .where(duration)
+    //   .equals(2)
+    //   .where(price)
+    //   .equals(200);
     // Building Query
     // Filtering
     const queryObj = { ...req.query };
@@ -43,13 +48,16 @@ exports.getAllTours = async (req, res) => {
       (match) => `$${match}`
     );
 
-    const query = Tour.find(JSON.parse(queryStr));
+    let query = Tour.find(JSON.parse(queryStr));
 
-    // const tours = await Tour.find()
-    //   .where(duration)
-    //   .equals(2)
-    //   .where(price)
-    //   .equals(200);
+    // Sorting
+
+    if (req.query.sort) {
+      const sortBy = req.query.sort.split(',').join('');
+      query = query.sort(sortBy);
+    } else {
+      query = query.sort('-createdAt');
+    }
 
     // Awaiting Query
     const tours = await query;
