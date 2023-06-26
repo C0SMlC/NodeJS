@@ -68,6 +68,17 @@ exports.getAllTours = async (req, res) => {
       query = query.select('-__v');
     }
 
+    //PAGINATION
+    const skip = req.query.page * 1 || 1;
+    const limit = req.query.limit * 1 || 100;
+    const startIndex = (skip - 1) * limit;
+
+    query = query.skip(startIndex).limit(limit);
+    if (req.query.page) {
+      const numTours = await Tour.countDocuments();
+      if (numTours <= skip) throw new Error('not found');
+    }
+
     // Awaiting Query
     const tours = await query;
 
