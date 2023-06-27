@@ -9,6 +9,12 @@ const router = express.Router();
 
 // router.use(checkBody);
 
+router.route('/stats').get(tourController.getStats);
+
+router
+  .route('/top-five-tours')
+  .get(tourController.updateQuery, tourController.getAllTours);
+
 router
   .route('/')
   .get(tourController.getAllTours)
