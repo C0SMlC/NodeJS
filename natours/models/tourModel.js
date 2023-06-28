@@ -96,6 +96,20 @@ tourSchema.post('save', function (doc, next) {
   next();
 });
 
+//QUERY MIDDLEWARE
+// /^find/ => regular expression used to target findOne() and find both the methods
+tourSchema.pre(/^find/, function (next) {
+  this.find({
+    secretTour: { $ne: true },
+  });
+  this.start = Date.now();
+  next();
+});
+
+tourSchema.post(/^find/, function (docs, next) {
+  console.log(`The query took ${Date.now() - this.start} milliseconds.`);
+  next();
+});
 
 const Tour = mongoose.model('Tour', tourSchema);
 
