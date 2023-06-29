@@ -2,8 +2,10 @@ const express = require('express');
 
 const morgan = require('morgan');
 
+const AppError = require('./utils/AppError');
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
+const errorController = require('./controller/errorController');
 
 const app = express();
 
@@ -27,21 +29,13 @@ app.all('*', (req, res, next) => {
   //   status: 'fail',
   //   message: 'Invalid Route',
   // });
-  const error = new Error(`Can not find ${req.originalUrl} on this server`);
-  error.status = 'fail';
-  error.statusCode = 404;
-  next(error);
+  // const error = new Error(`Can not find ${req.originalUrl} on this server`);
+  // error.status = 'fail';
+  // error.statusCode = 404;
+  next(new AppError(`Can not find ${req.originalUrl} on this server`, 404));
 });
 
-app.use((error, req, res, next) => {
-  error.statusCode = error.statusCode || 500;
-  error.status = error.status || 'error';
-
-  res.status(error.statusCode).json({
-    status: error.status,
-    message: error.message,
-  });
-});
+app.use(errorController);
 
 // app.get('/api/v1/tours', getAllTours);
 // app.get('/api/v1/tours/:id', getTour);
