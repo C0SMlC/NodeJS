@@ -1,7 +1,10 @@
 const express = require('express');
+
 const tourController = require('../controller/tourController');
 
-// This line of code creates a new instance of an Express router by calling the express.Router() method. The router is essentially a mini Express application that can be used to handle routes and middleware.
+// This line of code creates a new instance of an Express router by calling the express.Router() method.
+//The router is essentially a mini Express application that can be used to handle routes and middleware.
+
 const router = express.Router();
 
 // A special kind of middleware that runs only if a specified parameter s present in the url
