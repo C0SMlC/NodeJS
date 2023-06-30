@@ -1,6 +1,7 @@
 const Tour = require('../models/tourModel');
 const APIFeatures = require('../utils/APIFeatures');
 const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/AppError');
 
 // const fs = require('fs');
 // const tours = JSON.parse(
@@ -101,6 +102,7 @@ exports.getAllTours = catchAsync(async (req, res, next) => {
       tours: tours,
     },
   });
+  next();
 });
 
 exports.createTour = catchAsync(async (req, res, next) => {
@@ -116,10 +118,16 @@ exports.createTour = catchAsync(async (req, res, next) => {
       tour: newTour,
     },
   });
+  // next();
 });
 
 exports.getTour = catchAsync(async (req, res, next) => {
   const tour = await Tour.findById(req.params.id);
+
+  if (!tour) {
+    return next(new AppError('Could not find tour with that ID', 404));
+  }
+
   res.status(200).json({
     // JSEND format
     status: 'success',
@@ -128,6 +136,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
       tour: tour,
     },
   });
+  // next();
 });
 
 exports.updateTour = catchAsync(async (req, res, next) => {
@@ -144,6 +153,7 @@ exports.updateTour = catchAsync(async (req, res, next) => {
       tour: tour,
     },
   });
+  // next();
 });
 
 exports.deleteTour = catchAsync(async (req, res, next) => {
@@ -153,6 +163,7 @@ exports.deleteTour = catchAsync(async (req, res, next) => {
     status: 'success',
     data: null,
   });
+  // next();
 });
 
 exports.getStats = catchAsync(async (req, res, next) => {
@@ -184,6 +195,7 @@ exports.getStats = catchAsync(async (req, res, next) => {
       stats: stats,
     },
   });
+  // next();
 });
 
 exports.getTourStats = catchAsync(async (req, res, next) => {
@@ -212,6 +224,7 @@ exports.getTourStats = catchAsync(async (req, res, next) => {
       stats,
     },
   });
+  // next();
 });
 
 exports.getMonthlyStats = catchAsync(async (req, res, next) => {
@@ -264,4 +277,5 @@ exports.getMonthlyStats = catchAsync(async (req, res, next) => {
       monthlyStat,
     },
   });
+  // next();
 });
