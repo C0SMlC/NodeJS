@@ -40,7 +40,7 @@ module.exports = (error, req, res, next) => {
   if (process.env.NODE_ENV === 'development') {
     // console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
     sendErrorDev(error, res);
-  } else if (process.env.NODE_ENV == 'production') {
+  } else if (process.env.NODE_ENV === 'production') {
     let err = { ...error };
     if (err.name === 'CastError') err = handleErrorDB(err);
     sendErrorProd(error, res);
