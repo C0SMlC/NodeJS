@@ -18,7 +18,7 @@ mongoose
   })
   .then(() => console.log('Connection Successfull'));
 
-// console.log(app.get('env'));
+console.log(app.get('env'));
 // console.log(process.env);
 
 const port = 3000;

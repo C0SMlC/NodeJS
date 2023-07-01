@@ -1,3 +1,10 @@
+const AppError = require('../utils/AppError');
+
+const handleErrorDB = (err) => {
+  const message = `Inavlid ${err.path} : ${err.value}`;
+  return new AppError(message, 404);
+};
+
 const sendErrorDev = (error, res) => {
   res.status(error.statusCode).json({
     status: error.status,
@@ -18,7 +25,7 @@ const sendErrorProd = (error, res) => {
   // Programming Error
   else {
     // 1. log the error
-    console.log('Error⚡', error);
+    console.error('Error⚡', error);
     res.status(500).json({
       status: 'Error',
       message: 'Something Went Wrong :(',
@@ -28,10 +35,14 @@ const sendErrorProd = (error, res) => {
 module.exports = (error, req, res, next) => {
   error.statusCode = error.statusCode || 500;
   error.status = error.status || 'error';
-
+  // console.log('Hey');
+  // console.log(process.env.NODE_ENV);
   if (process.env.NODE_ENV === 'development') {
+    // console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
     sendErrorDev(error, res);
-  } else if (process.env.NODE_ENV === 'production') {
+  } else if (process.env.NODE_ENV == 'production') {
+    let err = { ...error };
+    if (err.name === 'CastError') err = handleErrorDB(err);
     sendErrorProd(error, res);
   }
 };

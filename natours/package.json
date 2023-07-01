@@ -4,9 +4,9 @@
   "description": "Natours API",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js",
-    "start:prod": "NODE_ENV=production nodemon server.js"
+    "start:server": "set NODE_ENV=production && nodemon server.js",
+    "start:watch": "nodemon server.js"
   },
   "author": "Pratik Pendurkar",
   "license": "ISC",
@@ -19,6 +19,7 @@
     "validator": "^13.9.0"
   },
   "devDependencies": {
+    "concurrently": "^8.2.0",
     "eslint": "^8.43.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.8.0",
