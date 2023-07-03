@@ -11,6 +11,12 @@ const handleDuplicateFieldDB = (err) => {
   return new AppError(message, 400);
 };
 
+const handleValidationErrorDB = (err) => {
+  const errors = Object.values(err.errors).map((el) => el.message);
+  const message = `Invalid input data. ${errors.join('. ')}`;
+  console.log('zyyyyyyyyyyyyyyyyyyyyyyyyyyyffffffff');
+  return new AppError(message, 400);
+};
 const sendErrorDev = (error, res) => {
   res.status(error.statusCode).json({
     status: error.status,
@@ -32,7 +38,7 @@ const sendErrorProd = (error, res) => {
   // Programming Error
   else {
     // 1. log the error
-    console.error('Error⚡', error);
+    console.error('Error⚡');
     res.status(500).json({
       status: 'Error',
       message: error.message,
@@ -43,6 +49,8 @@ module.exports = (error, req, res, next) => {
   error.statusCode = error.statusCode || 500;
   error.status = error.status || 'error';
   // console.log('Hey');
+  console.log(error.name);
+
   // console.log(process.env.NODE_ENV);
   if (process.env.NODE_ENV === 'development') {
     // console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
@@ -51,6 +59,11 @@ module.exports = (error, req, res, next) => {
     let err = { ...error };
     if (err.name === 'CastError') err = handleErrorDB(err);
     if (err.code === 11000) err = handleDuplicateFieldDB(err);
+    // console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+    // console.log(error.name);
+    // console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+
+    if (error.name === 'ValidationError') err = handleValidationErrorDB(err);
     sendErrorProd(err, res);
   }
 };
