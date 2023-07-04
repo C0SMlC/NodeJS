@@ -1,12 +1,19 @@
+const User = require('../models/userModel');
+const catchAsync = require('../utils/catchAsync');
+// const AppError = require('../utils/AppError');
+
 // Users
-exports.getUsers = (req, res) => {
+exports.getUsers = catchAsync(async (req, res, next) => {
+  const users = await User.find();
   //internal server error
   res.status(500).json({
     // JSEND format
     status: 'error',
-    result: 'This route is not yet defined !!!',
+    result: {
+      users,
+    },
   });
-};
+});
 
 exports.getUser = (req, res) => {
   //internal server error
