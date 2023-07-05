@@ -1,6 +1,7 @@
 const express = require('express');
 
 const tourController = require('../controller/tourController');
+const authController = require('../controller/authController');
 
 // This line of code creates a new instance of an Express router by calling the express.Router() method.
 //The router is essentially a mini Express application that can be used to handle routes and middleware.
@@ -20,7 +21,7 @@ router
 
 router
   .route('/')
-  .get(tourController.getAllTours)
+  .get(authController.protect, tourController.getAllTours)
   .post(/*tourController.checkBody,*/ tourController.createTour);
 router
   .route('/:id')

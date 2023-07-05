@@ -102,7 +102,7 @@ exports.getAllTours = catchAsync(async (req, res, next) => {
       tours: tours,
     },
   });
-  next();
+  // next();
 });
 
 exports.createTour = catchAsync(async (req, res, next) => {
