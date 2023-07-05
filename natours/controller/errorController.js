@@ -52,27 +52,29 @@ const sendErrorProd = (error, res) => {
   }
 };
 
-module.exports = (error, req, res, next) => {
-  error.statusCode = error.statusCode || 500;
-  error.status = error.status || 'error';
+module.exports = (err, req, res, next) => {
+  err.statusCode = err.statusCode || 500;
+  err.status = err.status || 'error';
   // console.log('Hey');
   // console.log(error.name);
-
   // console.log(process.env.NODE_ENV);
+
   if (process.env.NODE_ENV === 'development') {
-    // console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-    sendErrorDev(error, res);
+    sendErrorDev(err, res);
   } else {
-    let err = { ...error };
-    if (err.name === 'CastError') err = handleErrorDB(err);
-    if (err.code === 11000) err = handleDuplicateFieldDB(err);
+    console.log(err.message);
+    let error = { ...err };
+    console.log(err.message);
+
+    if (error.name === 'CastError') error = handleErrorDB(err);
+    if (error.code === 11000) error = handleDuplicateFieldDB(err);
     // console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
     // console.log(error.name);
     // console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 
-    if (error.name === 'ValidationError') err = handleValidationErrorDB(err);
-    if (error.name === 'JsonWebTokenError') err = handleJWTError();
-    if (error.name === 'TokenExpiredError') err = handleJWTTokenExpError();
+    if (error.name === 'ValidationError') error = handleValidationErrorDB(err);
+    if (error.name === 'JsonWebTokenError') error = handleJWTError();
+    if (error.name === 'TokenExpiredError') error = handleJWTTokenExpError();
 
     sendErrorProd(err, res);
   }
