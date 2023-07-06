@@ -9,6 +9,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please enter your name'],
   },
+  role: {
+    type: String,
+    enum: ['user', 'guide', 'lead-guide', 'admin'],
+    default: 'user',
+  },
   email: {
     type: String,
     required: [true, 'Please enter your name'],
@@ -53,12 +58,15 @@ userSchema.methods.correctPassword = async function (
   return await bcrypt.compare(enteredPassword, savedPassword);
 };
 
-userSchema.methods.changedPasswordAfter = async function (JWTTimestamp) {
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   if (this.passwordChangedAt) {
     const changedTimestamp = parseInt(
-      this.passwordChangedAt.getTime() / 100,
-      2
+      this.passwordChangedAt.getTime() / 1000,
+      10
     );
+
+    console.log(changedTimestamp);
+    console.log(JWTTimestamp);
 
     return JWTTimestamp < changedTimestamp;
   }

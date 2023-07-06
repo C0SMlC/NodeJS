@@ -1,4 +1,4 @@
-const { promisify } = require('util');
+const { promisify, log } = require('util');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
@@ -15,6 +15,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     email: req.body.email,
     password: req.body.password,
     confirmPassword: req.body.confirmPassword,
+    passwordChangedAt: req.body.passwordChangedAt,
   });
 
   // create a new token
@@ -85,11 +86,12 @@ exports.protect = catchAsync(async (req, res, next) => {
     token,
     process.env.JWT_SECRET_KEY
   );
-  console.log(decoded);
+  // console.log(decoded);
 
   // 3. Check if user still exists
-  const freshUser = await User.findById(decoded.id);
-  if (!freshUser) {
+  const currentUser = await User.findById(decoded.id);
+  console.log(currentUser);
+  if (!currentUser) {
     return next(
       new AppError('The user belonging to that token no longer exists', 401)
     );
@@ -97,11 +99,22 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   //  4. Check if user changed password after the token was issued
 
-  if (freshUser.passwordChangedAt(decoded.iat)) {
+  if (currentUser.changedPasswordAfter(decoded.iat)) {
     return next(
       new AppError('User recently changed password! Please login again.')
     );
   }
-
+  req.user = currentUser;
   next();
 });
+
+exports.restrict =
+  (...roles) =>
+  (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(
+        new AppError('You do not have permission to perform this action', 403)
+      );
+    }
+    next();
+  };
