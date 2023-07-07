@@ -15,6 +15,10 @@ router
   .patch(authController.protect, authController.updatePassword);
 router.route('/resetPassword/:token').patch(authController.resetPassword);
 
+router
+  .route('/updateMe')
+  .patch(authController.protect, userController.updateMe);
+
 // router
 //   .route('/api/v1/users/:id')
 //   .get(userController.getUser)

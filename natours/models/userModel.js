@@ -92,9 +92,9 @@ userSchema.methods.createPasswordResetToken = function () {
     .update(resetToken)
     .digest('hex');
 
-  console.log(
-    `unencrpted: ${resetToken} \n Ecrpted: ${this.passwordResetToken}`
-  );
+  // console.log(
+  //   `unencrpted: ${resetToken} \n Ecrpted: ${this.passwordResetToken}`
+  // );
   // * 1000 Convert seconds to mS
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
 

@@ -43,9 +43,9 @@ exports.login = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ email }).select('+password');
   // user = await user.select('-__v');
 
-  console.log(`${user}`);
-  console.log(password);
-  console.log(`${await user.correctPassword(password, user.password)}`);
+  // console.log(`${user}`);
+  // console.log(password);
+  // console.log(`${await user.correctPassword(password, user.password)}`);
 
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError('Incorrect email or password', 401));
@@ -71,7 +71,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   ) {
     token = req.headers.authorization.split(' ')[1];
   }
-  console.log(token);
+  // console.log(token);
 
   if (!token) {
     return next(new AppError('You are not logged in!', 401));
@@ -92,7 +92,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   // 3. Check if user still exists
   const currentUser = await User.findById(decoded.id);
-  console.log(currentUser);
+  // console.log(currentUser);
   if (!currentUser) {
     return next(
       new AppError('The user belonging to that token no longer exists', 401)
@@ -126,7 +126,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   const user = await User.findOne({
     email: req.body.email,
   });
-  console.log(user);
+  // console.log(user);
   if (!user) {
     return next(new AppError('There is no user with that email address', 404));
   }
@@ -154,7 +154,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
       message: 'Token sent successfully !',
     });
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     user.passwordResetExpires = undefined;
     user.passwordResetToken = undefined;
     return next(
@@ -175,7 +175,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     .update(req.params.token)
     .digest('hex');
 
-  console.log(hashedToken);
+  // console.log(hashedToken);
 
   const user = await User.findOne({
     passwordResetToken: hashedToken,
