@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const rateLimit = require('express-rate-limit');
 
 const AppError = require('./utils/AppError');
 const errorController = require('./controller/errorController');
@@ -12,6 +13,14 @@ if (process.env.NODE_ENV !== 'production') {
   //Logging request details to console
   app.use(morgan('dev'));
 }
+
+const limiter = rateLimit({
+  max: 100,
+  windowMs: 60 * 60 * 1000,
+  message: 'Too many requests from this IP! Please try again later.',
+});
+
+app.use('/api', limiter);
 
 // body parser
 app.use(express.json());
