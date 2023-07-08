@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
 
 const AppError = require('./utils/AppError');
 const errorController = require('./controller/errorController');
@@ -9,10 +10,17 @@ const userRouter = require('./routes/userRoutes');
 
 const app = express();
 
+// Global Middleware
+
+// security http header
+app.use(helmet());
+
 if (process.env.NODE_ENV !== 'production') {
   //Logging request details to console
   app.use(morgan('dev'));
 }
+
+// Too many requests
 
 const limiter = rateLimit({
   max: 100,
@@ -23,7 +31,11 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 
 // body parser
-app.use(express.json());
+app.use(
+  express.json({
+    limit: '10kb',
+  })
+);
 
 // Serving static files, to view static files such as images on server
 app.use(express.static(`${__dirname}/public`));
