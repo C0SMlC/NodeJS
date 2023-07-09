@@ -10,6 +10,7 @@ const AppError = require('./utils/AppError');
 const errorController = require('./controller/errorController');
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
+const reviewRouter = require('./routes/reviewRoutes');
 
 const app = express();
 
@@ -72,6 +73,8 @@ app.use(express.static(`${__dirname}/public`));
 // In the context of Express.js, "mounting" refers to attaching a router or middleware to a specific path or URL within the application
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/reviews', reviewRouter);
+
 app.all('*', (req, res, next) => {
   // res.status(404).json({
   //   status: 'fail',

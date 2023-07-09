@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const slugify = require('slugify');
+// const slugify = require('slugify');
 
 const reviewSchema = new mongoose.Schema(
   {
@@ -36,6 +36,21 @@ const reviewSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 );
+
+reviewSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'reviewer',
+    select: '-__v -passwordChangedAt',
+  });
+  next();
+});
+
+reviewSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'reviewedTour',
+  });
+  next();
+});
 
 const Review = mongoose.model('Review', reviewSchema);
 
