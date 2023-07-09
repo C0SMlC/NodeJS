@@ -152,11 +152,17 @@ tourSchema.pre('save', function (next) {
 
 //QUERY MIDDLEWARE
 // /^find/ => regular expression used to target findOne() and find both the methods
+
 tourSchema.pre(/^find/, function (next) {
   this.find({
     secretTour: { $ne: true },
   });
   this.start = Date.now();
+  next();
+});
+
+tourSchema.pre(/^find/, function (next) {
+  this.populate({ path: 'guides', select: '-v passwordChangedAt' });
   next();
 });
 
