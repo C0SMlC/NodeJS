@@ -1,6 +1,8 @@
 const slugify = require('slugify');
-const validator = require('validator');
+// const validator = require('validator');
 const mongoose = require('mongoose');
+
+const User = require('./userModel');
 
 const tourSchema = new mongoose.Schema(
   {
@@ -86,6 +88,29 @@ const tourSchema = new mongoose.Schema(
     },
 
     startDates: [Date],
+    startLocations: {
+      type: {
+        type: String,
+        default: 'Point',
+        enum: ['Point'],
+      },
+      coordinates: [Number],
+      address: String,
+      description: String,
+    },
+    locations: [
+      {
+        type: {
+          type: String,
+          default: 'Point',
+          enum: ['Point'],
+        },
+        coordinates: [Number],
+        address: String,
+        description: String,
+      },
+    ],
+    guides: Array,
   },
   {
     toJSON: { virtuals: true },
@@ -107,11 +132,17 @@ tourSchema.pre('save', function (next) {
   next();
 });
 
-// runs after save() and create()
-tourSchema.post('save', function (doc, next) {
-  console.log(doc);
+tourSchema.pre('save', async function (next) {
+  const guidePromises = this.guides.map(async (id) => await User.findById(id));
+  this.guides = await Promise.all(guidePromises);
   next();
 });
+
+// runs after save() and create()
+// tourSchema.post('save', function (doc, next) {
+//   console.log(doc);
+//   next();
+// });
 
 //QUERY MIDDLEWARE
 // /^find/ => regular expression used to target findOne() and find both the methods

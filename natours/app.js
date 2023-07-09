@@ -48,9 +48,10 @@ app.use(
 app.use(mongoSanitize());
 
 // Data sanitize gainst xss i.e malicious html code included with js
+// Cross-Site Scripting
 app.use(xss());
 
-// Prevent parameter pollution
+// Prevent parameter pollution (HTTP Parameter Pollution)
 app.use(
   hpp({
     whitelist: [
