@@ -38,6 +38,12 @@ const reviewSchema = new mongoose.Schema(
 );
 
 reviewSchema.pre(/^find/, function (next) {
+  // this.populate({
+  //   path: 'reviewer',
+  //   select: '-__v -passwordChangedAt',
+  // }).populate({
+  //   path: 'reviewedTour',
+  // });
   this.populate({
     path: 'reviewer',
     select: '-__v -passwordChangedAt',
@@ -45,12 +51,10 @@ reviewSchema.pre(/^find/, function (next) {
   next();
 });
 
-reviewSchema.pre(/^find/, function (next) {
-  this.populate({
-    path: 'reviewedTour',
-  });
-  next();
-});
+// reviewSchema.pre(/^find/, function (next) {
+//   this.populate({});
+//   next();
+// });
 
 const Review = mongoose.model('Review', reviewSchema);
 
