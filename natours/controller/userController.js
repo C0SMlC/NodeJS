@@ -51,9 +51,9 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
 exports.getUsers = catchAsync(async (req, res, next) => {
   const users = await User.find();
   //internal server error
-  res.status(500).json({
+  res.status(200).json({
     // JSEND format
-    status: 'error',
+    status: 'success',
     result: {
       users,
     },
@@ -68,14 +68,7 @@ exports.getUser = (req, res) => {
     result: 'This route is not yet defined !!!',
   });
 };
-exports.updateUser = (req, res) => {
-  //internal server error
-  res.status(500).json({
-    // JSEND format
-    status: 'error',
-    result: 'This route is not yet defined !!!',
-  });
-};
+exports.updateUser = handlerFactory.updateOne(User);
 exports.createUser = (req, res) => {
   //internal server error
   res.status(500).json({

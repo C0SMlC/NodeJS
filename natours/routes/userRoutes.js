@@ -23,10 +23,10 @@ router
   .route('/deleteMe')
   .delete(authController.protect, userController.deleteMe);
 
-// router
-//   .route('/api/v1/users/:id')
-//   .get(userController.getUser)
-//   .patch(userController.updateUser)
-//   .delete(userController.deleteUser);
+router
+  .route('/:id')
+  .get(userController.getUser)
+  .patch(userController.updateUser)
+  .delete(userController.deleteUser);
 
 module.exports = router;

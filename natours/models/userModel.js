@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['user', 'guide', 'lead-guide', 'admin'],
     default: 'user',
+    select: false,
   },
   email: {
     type: String,
@@ -49,7 +50,7 @@ const userSchema = new mongoose.Schema({
   active: {
     type: Boolean,
     default: true,
-    selesct: false,
+    select: false,
   },
 });
 

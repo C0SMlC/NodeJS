@@ -141,22 +141,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
   // next();
 });
 
-exports.updateTour = catchAsync(async (req, res, next) => {
-  const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
-    // To return new updqated document
-    new: true,
-    runValidators: true,
-  });
-
-  res.status(200).json({
-    // JSEND format
-    status: 'success',
-    data: {
-      tour: tour,
-    },
-  });
-  // next();
-});
+exports.updateTour = handlerFactory.updateOne(Tour);
 
 exports.deleteTour = handlerFactory.deleteOne(Tour);
 // exports.deleteTour = catchAsync(async (req, res, next) => {
