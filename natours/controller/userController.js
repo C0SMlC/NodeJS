@@ -1,6 +1,7 @@
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
+const handlerFactory = require('./handlerFactory');
 
 const filterFields = (obj, ...includedFileds) => {
   const newObj = {};
@@ -83,11 +84,4 @@ exports.createUser = (req, res) => {
     result: 'This route is not yet defined !!!',
   });
 };
-exports.deleteUser = (req, res) => {
-  //internal server error
-  res.status(500).json({
-    // JSEND format
-    status: 'error',
-    result: 'This route is not yet defined !!!',
-  });
-};
+exports.deleteUser = handlerFactory.deleteOne(User);
