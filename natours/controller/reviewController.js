@@ -17,7 +17,9 @@ exports.createReview = catchAsync(async (req, res, next) => {
 });
 
 exports.getReviews = catchAsync(async (req, res, next) => {
-  const review = await Review.find();
+  let tour = {};
+  if (req.params.id) tour = { id: req.params.id };
+  const review = await Review.find(tour);
   res.status(200).json({
     status: 'success',
     review,
