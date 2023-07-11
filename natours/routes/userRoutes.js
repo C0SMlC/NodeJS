@@ -29,4 +29,8 @@ router
   .patch(userController.updateUser)
   .delete(userController.deleteUser);
 
+router
+  .route('/me')
+  .get(authController.protect, userController.getMe, userController.getUser);
+
 module.exports = router;

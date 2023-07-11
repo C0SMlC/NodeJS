@@ -13,6 +13,11 @@ const filterFields = (obj, ...includedFileds) => {
   return newObj;
 };
 
+exports.getMe = (req, res, next) => {
+  req.params.id = req.user.id;
+  next();
+};
+
 exports.updateMe = catchAsync(async (req, res, next) => {
   // 1. create error if user tries to update password here
 
@@ -48,26 +53,8 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
 });
 
 // Users
-exports.getUsers = catchAsync(async (req, res, next) => {
-  const users = await User.find();
-  //internal server error
-  res.status(200).json({
-    // JSEND format
-    status: 'success',
-    result: {
-      users,
-    },
-  });
-});
-
-exports.getUser = (req, res) => {
-  //internal server error
-  res.status(500).json({
-    // JSEND format
-    status: 'error',
-    result: 'This route is not yet defined !!!',
-  });
-};
+exports.getUsers = handlerFactory.getAll(User);
+exports.getUser = handlerFactory.getOne(User);
 exports.updateUser = handlerFactory.updateOne(User);
 exports.createUser = handlerFactory.createOne(User);
 exports.deleteUser = handlerFactory.deleteOne(User);

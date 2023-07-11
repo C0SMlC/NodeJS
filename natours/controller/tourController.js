@@ -1,7 +1,5 @@
 const Tour = require('../models/tourModel');
-const APIFeatures = require('../utils/APIFeatures');
 const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/AppError');
 const handlerFactory = require('./handlerFactory');
 
 // const fs = require('fs');
@@ -35,101 +33,87 @@ exports.updateQuery = (req, res, next) => {
   next();
 };
 
-exports.getAllTours = catchAsync(async (req, res, next) => {
-  // console.log(req.query);
-  // const tours = await Tour.find()
-  //   .where(duration)
-  //   .equals(2)
-  //   .where(price)
-  //   .equals(200);
-  // Building Query
-  // Filtering
-  // const queryObj = { ...req.query };
-  // const excludedFileds = ['page', 'sort', 'limit', 'fields'];
-  // excludedFileds.forEach((el) => delete queryObj[el]);
+// exports.getAllTours = catchAsync(async (req, res, next) => {
+// console.log(req.query);
+// const tours = await Tour.find()
+//   .where(duration)
+//   .equals(2)
+//   .where(price)
+//   .equals(200);
+// Building Query
+// Filtering
+// const queryObj = { ...req.query };
+// const excludedFileds = ['page', 'sort', 'limit', 'fields'];
+// excludedFileds.forEach((el) => delete queryObj[el]);
 
-  // // Advance Filtering
-  // let queryStr = JSON.stringify(queryObj);
-  // //  \b tag to select exact words and /g flag for replacing multiple words
-  // queryStr = queryStr.replace(
-  //   /\b(gte|lte|gt|lt|ne|in)\b/g,
-  //   (match) => `$${match}`
-  // );
+// // Advance Filtering
+// let queryStr = JSON.stringify(queryObj);
+// //  \b tag to select exact words and /g flag for replacing multiple words
+// queryStr = queryStr.replace(
+//   /\b(gte|lte|gt|lt|ne|in)\b/g,
+//   (match) => `$${match}`
+// );
 
-  // let query = Tour.find(JSON.parse(queryStr));
+// let query = Tour.find(JSON.parse(queryStr));
 
-  // Sorting
+// Sorting
 
-  // if (req.query.sort) {
-  //   const sortBy = req.query.sort.split(',').join(' ');
-  //   query = query.sort(sortBy);
-  // } else {
-  //   query = query.sort('-createdAt');
-  // }
+// if (req.query.sort) {
+//   const sortBy = req.query.sort.split(',').join(' ');
+//   query = query.sort(sortBy);
+// } else {
+//   query = query.sort('-createdAt');
+// }
 
-  // Limiting Fields
+// Limiting Fields
 
-  // if (req.query.fields) {
-  //   const fields = req.query.fields.split(',').join(' ');
-  //   query = query.select(fields);
-  // } else {
-  //   query = query.select('-__v');
-  // }
+// if (req.query.fields) {
+//   const fields = req.query.fields.split(',').join(' ');
+//   query = query.select(fields);
+// } else {
+//   query = query.select('-__v');
+// }
 
-  //PAGINATION
-  // const skip = req.query.page * 1 || 1;
-  // const limit = req.query.limit * 1 || 100;
-  // const startIndex = (skip - 1) * limit;
+//PAGINATION
+// const skip = req.query.page * 1 || 1;
+// const limit = req.query.limit * 1 || 100;
+// const startIndex = (skip - 1) * limit;
 
-  // query = query.skip(startIndex).limit(limit);
-  // if (req.query.page) {
-  //   const numTours = await Tour.countDocuments();
-  //   if (numTours <= skip) throw new Error('not found');
-  // }
+// query = query.skip(startIndex).limit(limit);
+// if (req.query.page) {
+//   const numTours = await Tour.countDocuments();
+//   if (numTours <= skip) throw new Error('not found');
+// }
 
-  // Awaiting Query
-  const features = new APIFeatures(Tour.find(), req.query)
-    .filter()
-    .sort()
-    .limitFields()
-    .pagination();
-  const tours = await features.query;
+// Awaiting Query
+//   const features = new APIFeatures(Tour.find(), req.query)
+//     .filter()
+//     .sort()
+//     .limitFields()
+//     .pagination();
+//   const tours = await features.query;
 
-  res.status(200).json({
-    // JSEND format
-    status: 'success',
-    result: tours.length,
-    data: {
-      tours: tours,
-    },
-  });
-  // next();
-});
+//   res.status(200).json({
+//     // JSEND format
+//     status: 'success',
+//     result: tours.length,
+//     data: {
+//       tours: tours,
+//     },
+//   });
+//   // next();
+// });
 
-exports.getTour = catchAsync(async (req, res, next) => {
-  // console.log('hiiiiiiiiiiiiiiii');
-  const tour = await Tour.findById(req.params.id).populate('reviews');
-  if (!tour) {
-    return next(new AppError('Could not find tour with that ID', 404));
-  }
-  // console.log('hiiiiiiiiiiiiiiii');
+exports.getAllTours = handlerFactory.getAll(Tour);
 
-  res.status(200).json({
-    // JSEND format
-    status: 'success',
-    // result: tours.length,
-    data: {
-      tour: tour,
-    },
-  });
-  // next();
-});
+exports.getTour = handlerFactory.getOne(Tour, { path: 'reviews' });
 
 exports.createTour = handlerFactory.createOne(Tour);
 
 exports.updateTour = handlerFactory.updateOne(Tour);
 
 exports.deleteTour = handlerFactory.deleteOne(Tour);
+
 // exports.deleteTour = catchAsync(async (req, res, next) => {
 //   await Tour.findByIdAndDelete(req.params.id);
 
