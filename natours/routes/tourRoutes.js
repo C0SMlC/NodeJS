@@ -25,8 +25,12 @@ router
 
 router
   .route('/')
-  .get(authController.protect, tourController.getAllTours)
-  .post(/*tourController.checkBody,*/ tourController.createTour);
+  .get(tourController.getAllTours)
+  .post(
+    authController.protect,
+    authController.restrict('admin', 'lead-guide'),
+    tourController.createTour
+  );
 router
   .route('/:id')
   .get(tourController.getTour)
@@ -37,6 +41,12 @@ router
     tourController.deleteTour
   );
 
-router.route('/monthly-stats/:year').get(tourController.getMonthlyStats);
+router
+  .route('/monthly-stats/:year')
+  .get(
+    authController.protect,
+    authController.restrict('admin', 'lead-guide', 'user'),
+    tourController.getMonthlyStats
+  );
 
 module.exports = router;
