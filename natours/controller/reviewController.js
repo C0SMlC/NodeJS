@@ -4,20 +4,6 @@ const handlerFactory = require('./handlerFactory');
 
 // const AppError = require('../utils/AppError');
 
-exports.createReview = catchAsync(async (req, res, next) => {
-  req.body.reviewedTour = req.body.reviewedTour
-    ? req.body.reviewedTour
-    : req.params.tourId;
-
-  req.body.reviewer = req.body.reviewer ? req.body.reviewer : req.user.id;
-
-  const review = await Review.create(req.body);
-  res.status(201).json({
-    status: 'success',
-    review,
-  });
-});
-
 exports.getReviews = catchAsync(async (req, res, next) => {
   let tour = {};
   if (req.params.tourId) tour = { reviewedTour: req.params.tourId };
@@ -28,6 +14,17 @@ exports.getReviews = catchAsync(async (req, res, next) => {
     review,
   });
 });
+
+exports.setTourUserIds = (req, res, next) => {
+  req.body.reviewedTour = req.body.reviewedTour
+    ? req.body.reviewedTour
+    : req.params.tourId;
+
+  req.body.reviewer = req.body.reviewer ? req.body.reviewer : req.user.id;
+  next();
+};
+
+exports.createReview = handlerFactory.createOne(Review);
 
 exports.deleteReview = handlerFactory.deleteOne(Review);
 

@@ -106,22 +106,6 @@ exports.getAllTours = catchAsync(async (req, res, next) => {
   // next();
 });
 
-exports.createTour = catchAsync(async (req, res, next) => {
-  // const testTour = new Tour({});
-  // testTour.save()
-
-  const newTour = await Tour.create(req.body);
-
-  res.status(201).json({
-    // JSEND format
-    status: 'success',
-    data: {
-      tour: newTour,
-    },
-  });
-  // next();
-});
-
 exports.getTour = catchAsync(async (req, res, next) => {
   // console.log('hiiiiiiiiiiiiiiii');
   const tour = await Tour.findById(req.params.id).populate('reviews');
@@ -140,6 +124,8 @@ exports.getTour = catchAsync(async (req, res, next) => {
   });
   // next();
 });
+
+exports.createTour = handlerFactory.createOne(Tour);
 
 exports.updateTour = handlerFactory.updateOne(Tour);
 

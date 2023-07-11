@@ -69,12 +69,5 @@ exports.getUser = (req, res) => {
   });
 };
 exports.updateUser = handlerFactory.updateOne(User);
-exports.createUser = (req, res) => {
-  //internal server error
-  res.status(500).json({
-    // JSEND format
-    status: 'error',
-    result: 'This route is not yet defined !!!',
-  });
-};
+exports.createUser = handlerFactory.createOne(User);
 exports.deleteUser = handlerFactory.deleteOne(User);
