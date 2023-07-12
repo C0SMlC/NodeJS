@@ -123,6 +123,9 @@ const tourSchema = new mongoose.Schema(
   }
 );
 
+tourSchema.index({ price: 1, ratingsAverage: -1 });
+tourSchema.index({ slug: 1 });
+
 //virtual properties
 // wont be saved ib DB, but wll be calculates right on spot
 // cant query

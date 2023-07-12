@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const Tour = require('./tourModel');
 // const slugify = require('slugify');
 
 const reviewSchema = new mongoose.Schema(
@@ -55,6 +55,29 @@ reviewSchema.pre(/^find/, function (next) {
 //   this.populate({});
 //   next();
 // });
+
+// static method will be called on the model itself and not on documnet
+reviewSchema.statics.calcAverageRating = async function (tourId) {
+  const stats = await this.aggregate([
+    { $match: { reviewedTour: tourId } },
+    {
+      $group: {
+        _id: '$reviewedTour',
+        numRating: { $sum: 1 },
+        avgRating: { $avg: '$rating' },
+      },
+    },
+  ]);
+
+  Tour.findByIdAndUpdate({
+    ratingsQuantity: stats[0].numRating,
+    ratingsAverage: stats[0].avgRating,
+  });
+};
+
+reviewSchema.post('save', function () {
+  this.constructor.calcAverageRating(this.reviewedTour);
+});
 
 const Review = mongoose.model('Review', reviewSchema);
 
