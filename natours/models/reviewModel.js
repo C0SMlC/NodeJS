@@ -87,12 +87,12 @@ reviewSchema.post('save', function () {
 });
 
 reviewSchema.pre(/^findOneAnd/, async function (next) {
-  this.r = this.findOne();
+  this.r = await this.clone().findOne();
   next();
 });
 
 reviewSchema.post(/^findOneAnd/, async function () {
-  await this.r.constructor.calcAverageRatings(this.reviewedTour);
+  await this.r.constructor.calcAverageRating(this.r.reviewedTour);
 });
 
 const Review = mongoose.model('Review', reviewSchema);
