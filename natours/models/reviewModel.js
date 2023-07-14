@@ -37,6 +37,8 @@ const reviewSchema = new mongoose.Schema(
   }
 );
 
+reviewSchema.index({ tour: 1, user: 1 }, { unique: true });
+
 reviewSchema.pre(/^find/, function (next) {
   // this.populate({
   //   path: 'reviewer',
@@ -86,6 +88,7 @@ reviewSchema.post('save', function () {
   this.constructor.calcAverageRating(this.reviewedTour);
 });
 
+// important to do this as this here points to query and not document
 reviewSchema.pre(/^findOneAnd/, async function (next) {
   this.r = await this.clone().findOne();
   next();
