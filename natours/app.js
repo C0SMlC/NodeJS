@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
@@ -13,9 +14,15 @@ const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 
 const app = express();
+// To tell express which template engine to use
+app.set('view engine', 'pug');
+// path join will automatically join to the views from the views folder
+app.set('views', path.join(__dirname, 'views'));
+// Serving static files, to view static files such as images on server
+// app.use(express.static(`${__dirname}/public`));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Global Middleware
-
 // security http header
 app.use(helmet());
 
@@ -66,8 +73,9 @@ app.use(
   })
 );
 
-// Serving static files, to view static files such as images on server
-app.use(express.static(`${__dirname}/public`));
+app.get('/', (req, res) => {
+  res.status(200).render('base');
+});
 
 // Mounting
 // In the context of Express.js, "mounting" refers to attaching a router or middleware to a specific path or URL within the application
