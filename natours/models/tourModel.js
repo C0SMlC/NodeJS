@@ -125,7 +125,7 @@ const tourSchema = new mongoose.Schema(
 
 tourSchema.index({ price: 1, ratingsAverage: -1 });
 tourSchema.index({ slug: 1 });
-tourSchema.index({ startLocations: '2dsphere' });
+tourSchema.index({ startLocation: '2dsphere' });
 
 //virtual properties
 // wont be saved ib DB, but wll be calculates right on spot
