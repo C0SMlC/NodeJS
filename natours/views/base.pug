@@ -1,7 +1,8 @@
 doctype html 
 html 
   head
-    title Natours | #{title}
+    - const title = tour? `Natours | ${tour.name}` : 'Natours'
+    title=title
     link(rel='stylesheet' href='/css/style.css')
     link(rel='shortcut icon' type='image/png' href='/img/favicon.pmg')
   body 
