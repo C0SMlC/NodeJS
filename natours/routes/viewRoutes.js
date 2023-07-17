@@ -3,6 +3,8 @@ const viewController = require('../controller/viewController');
 
 const router = express.Router();
 
+router.get('/login', viewController.getLoginForm);
+
 router.get('/', viewController.getOverview);
 
 router.get('/tour/:slug', viewController.getTour);
