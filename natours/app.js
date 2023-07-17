@@ -25,7 +25,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Global Middleware
 // security http header
-app.use(helmet());
+// app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false,
+  })
+);
 
 if (process.env.NODE_ENV !== 'production') {
   //Logging request details to console

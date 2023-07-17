@@ -1,10 +1,15 @@
 doctype html 
 html 
   head
-    - const title = tour? `Natours | ${tour.name}` : 'Natours'
-    title=title
-    link(rel='stylesheet' href='/css/style.css')
-    link(rel='shortcut icon' type='image/png' href='/img/favicon.pmg')
+    block head
+      meta(charset="UTF-8" )
+      meta(http-equiv="Content-Security-Policy" content="font-src 'self' data: fonts.googleapis.com fonts.gstatic.com;")
+      meta(name="viewport" content="width=device-width, initial-scale=1.0" )
+      link(rel='stylesheet' href='/css/style.css')
+      link(rel='shortcut icon' type='image/png' href='/img/favicon.png')
+      link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300i,700")
+      - const title = tour? `Natours | ${tour.name}` : 'Natours'
+      title=title
   body 
     // Header
     include _header
@@ -15,4 +20,6 @@ html
 
     // Footer
     include _footer
+
+    script(src='/js/mapbox.js')
 
