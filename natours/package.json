@@ -3,13 +3,18 @@
   "version": "1.0.0",
   "description": "Natours API",
   "main": "./public/js/bundle.js",
+  "targets": {
+    "main": {
+      "includeNodeModules": true
+    }
+  },
   "scripts": {
     "start": "nodemon server.js",
     "start:server": "set NODE_ENV=production && nodemon server.js",
     "start:watch": "nodemon server.js",
     "debug": "ndb server.js",
-    "watch:js": "parcel watch ./public/js/index.mjs --dist-dir ./public/js",
-    "build:js": "parcel build ./public/js/index.mjs --dist-dir ./public/js"
+    "watch:js": "parcel watch ./public/js/index.js --dist-dir ./public/js",
+    "build:js": "parcel build ./public/js/index.js --dist-dir ./public/js"
   },
   "author": "Pratik Pendurkar",
   "license": "ISC",
@@ -43,7 +48,6 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
-    "parcel": "^2.9.3",
     "prettier": "^2.8.8"
   },
   "engines": {
