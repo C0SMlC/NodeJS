@@ -2,15 +2,20 @@
   "name": "natours",
   "version": "1.0.0",
   "description": "Natours API",
-  "main": "index.js",
+  "main": "./public/js/bundle.js",
   "scripts": {
     "start": "nodemon server.js",
     "start:server": "set NODE_ENV=production && nodemon server.js",
-    "start:watch": "nodemon server.js"
+    "start:watch": "nodemon server.js",
+    "debug": "ndb server.js",
+    "watch:js": "parcel watch ./public/js/index.mjs --dist-dir ./public/js",
+    "build:js": "parcel build ./public/js/index.mjs --dist-dir ./public/js"
   },
   "author": "Pratik Pendurkar",
   "license": "ISC",
   "dependencies": {
+    "@babel/polyfill": "^7.12.1",
+    "axios": "^1.4.0",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.3.1",
@@ -38,6 +43,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
+    "parcel": "^2.9.3",
     "prettier": "^2.8.8"
   },
   "engines": {
