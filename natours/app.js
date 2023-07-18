@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
+const cookieParser = require('cookie-parser');
 
 const AppError = require('./utils/AppError');
 const errorController = require('./controller/errorController');
@@ -55,6 +56,8 @@ app.use(
   })
 );
 
+app.use(cookieParser());
+
 // Data sanitisation against NOSQL query injection
 // {
 //     "email":{"$gt":""},
@@ -80,6 +83,10 @@ app.use(
   })
 );
 
+app.use('/', (req, res, next) => {
+  console.log(req.cookies);
+  next();
+});
 // Mounting
 // In the context of Express.js, "mounting" refers to attaching a router or middleware to a specific path or URL within the application
 app.use('/', viewRouter);

@@ -52,7 +52,7 @@ exports.signup = catchAsync(async (req, res, next) => {
 
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
-
+  // console.log(email, password);
   // 1. check if email and password is entered
   if (!email || !password) {
     return next(new AppError('Please provide email and password', 401));
@@ -60,6 +60,8 @@ exports.login = catchAsync(async (req, res, next) => {
 
   // 2. check if user exists and password is correct
   const user = await User.findOne({ email }).select('+password');
+  // console.log(user);
+
   // user = await user.select('-__v');
 
   // console.log(`${user}`);
@@ -82,6 +84,8 @@ exports.protect = catchAsync(async (req, res, next) => {
     req.headers.authorization.startsWith('Bearer')
   ) {
     token = req.headers.authorization.split(' ')[1];
+  } else if (req.cookies.jwt) {
+    token = req.cookies.jwt;
   }
   // console.log(token);
 
@@ -119,6 +123,32 @@ exports.protect = catchAsync(async (req, res, next) => {
     );
   }
   req.user = currentUser;
+  next();
+});
+
+exports.isLoggedIn = catchAsync(async (req, res, next) => {
+  // 1. Getting token and check of it's there
+  if (req.cookies.jwt) {
+    // 2. Verifying token
+    const decoded = await promisify(jwt.verify)(
+      req.cookies.jwt,
+      process.env.JWT_SECRET_KEY
+    );
+
+    // 3. Check if user still exists
+    const currentUser = await User.findById(decoded.id);
+    // console.log(currentUser);
+    if (!currentUser) {
+      return next();
+    }
+
+    //  4. Check if user changed password after the token was issued
+    if (currentUser.changedPasswordAfter(decoded.iat)) {
+      return next();
+    }
+    res.locals.user = currentUser;
+    return next();
+  }
   next();
 });
 
