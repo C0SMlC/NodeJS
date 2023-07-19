@@ -2,17 +2,14 @@
   "name": "natours",
   "version": "1.0.0",
   "description": "Natours API",
-  "main": "./public/js/bundle.js",
-  "targets": {
-    "main": {
-      "includeNodeModules": true
-    }
-  },
+  "private": true,
   "scripts": {
     "start": "nodemon server.js",
     "start:server": "set NODE_ENV=production && nodemon server.js",
     "start:watch": "nodemon server.js",
     "debug": "ndb server.js",
+    "build": "webpack",
+    "watch": "webpack --watch",
     "watch:js": "parcel watch ./public/js/index.js --dist-dir ./public/js",
     "build:js": "parcel build ./public/js/index.js --dist-dir ./public/js"
   },
@@ -48,7 +45,9 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
-    "prettier": "^2.8.8"
+    "prettier": "^2.8.8",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
   },
   "engines": {
     "node": ">=10.0.0"
