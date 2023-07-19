@@ -1,6 +1,6 @@
 // index.js
 /* eslint-disable */
-import { login } from './login.js';
+import { login, logout } from './login.js';
 import { displayMap } from './mapbox.js';
 
 if (document.querySelector('.form')) {
@@ -19,4 +19,8 @@ if (document.getElementById('map')) {
     document.getElementById('map').dataset.locations
   );
   displayMap(locations);
+}
+
+if (document.querySelector('.nav__el--logout')) {
+  document.querySelector('.nav__el--logout').addEventListener('click', logout);
 }

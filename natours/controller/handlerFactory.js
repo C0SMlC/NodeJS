@@ -45,17 +45,17 @@ exports.createOne = (Model) =>
     });
   });
 
-exports.getOne = (Model, populateOptions) =>
+exports.getOne = (Model, popOptions) =>
   catchAsync(async (req, res, next) => {
     let query = Model.findById(req.params.id);
-    if (populateOptions) query = query.populate(populateOptions);
+    if (popOptions) query = query.populate(popOptions);
     const doc = await query;
 
     if (!doc) {
-      return next(new AppError('Could not find document with that ID', 404));
+      return next(new AppError('No document found with that ID', 404));
     }
+
     res.status(200).json({
-      // JSEND format
       status: 'success',
       data: {
         data: doc,

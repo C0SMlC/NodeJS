@@ -10,23 +10,13 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./public/js/alerts.js":
-/*!*****************************!*\
-  !*** ./public/js/alerts.js ***!
-  \*****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   hideAlert: () => (/* binding */ hideAlert),\n/* harmony export */   showAlert: () => (/* binding */ showAlert)\n/* harmony export */ });\nconst showAlert = (message, className) => {\r\n  hideAlert();\r\n  // Create markup\r\n  const markUp = `<div class=\"alert alert--${className}\">${message}</div>`;\r\n  // Insert alert\r\n  document.querySelector('body').insertAdjacentHTML('afterbegin', markUp);\r\n  // hide alert\r\n  window.setTimeout(hideAlert, 5000);\r\n};\r\n\r\nfunction hideAlert() {\r\n  const el = document.querySelector('.alert');\r\n  if (el) el.parentElement.remove(el);\r\n}\r\n\n\n//# sourceURL=webpack://natours/./public/js/alerts.js?");
-
-/***/ }),
-
 /***/ "./public/js/index.js":
 /*!****************************!*\
   !*** ./public/js/index.js ***!
   \****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _login_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./login.js */ \"./public/js/login.js\");\n/* harmony import */ var _mapbox_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mapbox.js */ \"./public/js/mapbox.js\");\n// index.js\r\n/* eslint-disable */\r\n\r\n\r\n\r\nif (document.querySelector('.form')) {\r\n  const loginBtn = document\r\n    .querySelector('.form')\r\n    .addEventListener('submit', (e) => {\r\n      e.preventDefault();\r\n      const email = document.querySelector('#email').value;\r\n      const password = document.querySelector('#password').value;\r\n      (0,_login_js__WEBPACK_IMPORTED_MODULE_0__.login)(email, password);\r\n    });\r\n}\r\n\r\nif (document.getElementById('map')) {\r\n  const locations = JSON.parse(\r\n    document.getElementById('map').dataset.locations\r\n  );\r\n  (0,_mapbox_js__WEBPACK_IMPORTED_MODULE_1__.displayMap)(locations);\r\n}\r\n\n\n//# sourceURL=webpack://natours/./public/js/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _login_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./login.js */ \"./public/js/login.js\");\n/* harmony import */ var _mapbox_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mapbox.js */ \"./public/js/mapbox.js\");\n// index.js\r\n/* eslint-disable */\r\n\r\n\r\n\r\nif (document.querySelector('.form')) {\r\n  const loginBtn = document\r\n    .querySelector('.form')\r\n    .addEventListener('submit', (e) => {\r\n      e.preventDefault();\r\n      const email = document.querySelector('#email').value;\r\n      const password = document.querySelector('#password').value;\r\n      (0,_login_js__WEBPACK_IMPORTED_MODULE_0__.login)(email, password);\r\n    });\r\n}\r\n\r\nif (document.getElementById('map')) {\r\n  const locations = JSON.parse(\r\n    document.getElementById('map').dataset.locations\r\n  );\r\n  (0,_mapbox_js__WEBPACK_IMPORTED_MODULE_1__.displayMap)(locations);\r\n}\r\n\r\nif (document.querySelector('.nav__el--logout')) {\r\n  document.querySelector('.nav__el--logout').addEventListener('click', _login_js__WEBPACK_IMPORTED_MODULE_0__.logout);\r\n}\r\n\n\n//# sourceURL=webpack://natours/./public/js/index.js?");
 
 /***/ }),
 
@@ -36,7 +26,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _log
   \****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   login: () => (/* binding */ login)\n/* harmony export */ });\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ \"./node_modules/axios/lib/axios.js\");\n/* harmony import */ var _alerts_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./alerts.js */ \"./public/js/alerts.js\");\n/* eslint-disable */\r\n\r\n\r\n\r\nconst login = async (email, password) => {\r\n  try {\r\n    const res = await (0,axios__WEBPACK_IMPORTED_MODULE_1__[\"default\"])({\r\n      method: 'POST',\r\n      url: 'http://127.0.0.1:3000/api/v1/users/login',\r\n      data: {\r\n        email,\r\n        password,\r\n      },\r\n    });\r\n    if (res.data.status === 'success') {\r\n      (0,_alerts_js__WEBPACK_IMPORTED_MODULE_0__.showAlert)('Logged In Successfully!', 'success');\r\n      window.setTimeout(() => {\r\n        location.assign('/');\r\n      }, 1500);\r\n    }\r\n  } catch (error) {\r\n    (0,_alerts_js__WEBPACK_IMPORTED_MODULE_0__.showAlert)(error.response.data.message, 'error');\r\n  }\r\n};\r\n\n\n//# sourceURL=webpack://natours/./public/js/login.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   login: () => (/* binding */ login),\n/* harmony export */   logout: () => (/* binding */ logout)\n/* harmony export */ });\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ \"./node_modules/axios/lib/axios.js\");\n/* eslint-disable */\r\n\r\nconst login = async (email, password) => {\r\n  try {\r\n    const res = await (0,axios__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({\r\n      method: 'POST',\r\n      url: 'http://127.0.0.1:3000/api/v1/users/login',\r\n      data: {\r\n        email,\r\n        password,\r\n      },\r\n    });\r\n    if (res.data.status === 'success') {\r\n      alert('Logged In Successfully!');\r\n      window.setTimeout(() => {\r\n        location.assign('/');\r\n      }, 1500);\r\n    }\r\n  } catch (error) {\r\n    alert(error.response.data.message);\r\n  }\r\n};\r\n\r\nconst logout = async () => {\r\n  try {\r\n    const res = await (0,axios__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({\r\n      method: 'GET',\r\n      url: 'http://127.0.0.1:3000/api/v1/users/logout',\r\n    });\r\n    if (res.data.status === 'success') location.reload(true);\r\n  } catch (error) {\r\n    alert(error.response.data.message);\r\n  }\r\n};\r\n\n\n//# sourceURL=webpack://natours/./public/js/login.js?");
 
 /***/ }),
 

@@ -83,10 +83,10 @@ app.use(
   })
 );
 
-app.use('/', (req, res, next) => {
-  console.log(req.cookies);
-  next();
-});
+// app.use('/', (req, res, next) => {
+//   console.log(req.cookies);
+//   next();
+// });
 // Mounting
 // In the context of Express.js, "mounting" refers to attaching a router or middleware to a specific path or URL within the application
 app.use('/', viewRouter);
