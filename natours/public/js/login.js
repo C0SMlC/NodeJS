@@ -29,8 +29,9 @@ export const logout = async () => {
       url: 'http://127.0.0.1:3000/api/v1/users/logout',
     });
     if (res.data.status === 'success') {
-      location.assign('/');
-      location.reload(true);
+      window.setTimeout(() => {
+        location.assign('/');
+      }, 1000);
     }
   } catch (error) {
     showAlert(error.response.data.message, 'error');
