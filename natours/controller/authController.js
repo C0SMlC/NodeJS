@@ -78,7 +78,7 @@ exports.login = catchAsync(async (req, res, next) => {
 
 exports.logOut = async (req, res) => {
   res.cookie('jwt', 'loggedout', {
-    expires: new Date(Date.now() + 10 * 1000),
+    expires: new Date(Date.now() + 2 * 1000),
     // can not modify nor delete the cookie
     httpOnly: true,
   });
@@ -144,7 +144,6 @@ exports.isLoggedIn = async (req, res, next) => {
         req.cookies.jwt,
         process.env.JWT_SECRET_KEY
       );
-      console.log('ggggggggggggggggggggggggggggggggggggggggggggggg');
 
       // 3. Check if user still exists
       const currentUser = await User.findById(decoded.id);
@@ -163,6 +162,11 @@ exports.isLoggedIn = async (req, res, next) => {
       return next();
     }
   }
+  next();
+};
+
+exports.checkIn = (req, res, next) => {
+  if (res.locals.user) console.log('checking in');
   next();
 };
 

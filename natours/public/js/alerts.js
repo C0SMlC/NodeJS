@@ -10,5 +10,5 @@ export const showAlert = (message, className) => {
 
 export function hideAlert() {
   const el = document.querySelector('.alert');
-  if (el) el.parentElement.remove(el);
+  if (el) el.parentElement.removeChild(el);
 }

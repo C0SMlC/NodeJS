@@ -10,6 +10,11 @@ router.get('/login', viewController.getLoginForm);
 
 router.get('/', viewController.getOverview);
 
-router.get('/tour/:slug', authController.protect, viewController.getTour);
+router.get(
+  '/tour/:slug',
+  authController.protect,
+  authController.checkIn,
+  viewController.getTour
+);
 
 module.exports = router;
