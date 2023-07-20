@@ -4,6 +4,9 @@ import { login, logout } from './login.js';
 import { updateData } from './userSettings';
 import { displayMap } from './mapbox.js';
 
+const updateDataForm = document.querySelector('.form-user-data');
+const updatePasswordForm = document.querySelector('.form-user-settings');
+
 if (document.querySelector('.form--login')) {
   const loginBtn = document
     .querySelector('.form--login')
@@ -26,13 +29,22 @@ if (document.querySelector('.nav__el--logout')) {
   document.querySelector('.nav__el--logout').addEventListener('click', logout);
 }
 
-const updateDataForm = document.querySelector('.form-user-data');
-
 if (updateDataForm) {
   updateDataForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
-    updateData(name, email);
+    updateData({ name, email }, 'me');
+  });
+}
+
+if (updatePasswordForm) {
+  updatePasswordForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const currentPassword = document.getElementById('password-current').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('password-confirm').value;
+
+    updateData({ currentPassword, password, confirmPassword }, 'passowrd');
   });
 }
