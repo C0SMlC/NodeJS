@@ -33,6 +33,6 @@ export const logout = async () => {
       location.reload(true);
     }
   } catch (error) {
-    alert(error.response.data.message);
+    showAlert(error.response.data.message, 'error');
   }
 };
