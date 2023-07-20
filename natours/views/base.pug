@@ -8,8 +8,7 @@ html
       link(rel='stylesheet' href='/css/style.css')
       link(rel='shortcut icon' type='image/png' href='/img/favicon.png')
       link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300i,700")
-      - const title = tour? `Natours | ${tour.name}` : 'Natours'
-      title=title
+      title Natours | #{title}
   body 
     // Header
     include _header

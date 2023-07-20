@@ -5,7 +5,7 @@ import { displayMap } from './mapbox.js';
 
 if (document.querySelector('.form')) {
   const loginBtn = document
-    .querySelector('.form')
+    .querySelector('.form--login')
     .addEventListener('submit', (e) => {
       e.preventDefault();
       const email = document.querySelector('#email').value;
