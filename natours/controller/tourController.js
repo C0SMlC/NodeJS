@@ -1,3 +1,4 @@
+const multer = require('multer');
 const Tour = require('../models/tourModel');
 const AppError = require('../utils/AppError');
 const catchAsync = require('../utils/catchAsync');
@@ -27,6 +28,50 @@ const handlerFactory = require('./handlerFactory');
 //     });
 //   }
 // };
+// const multStroage = multer.memoryStorage();
+
+// const multStroage = multer.diskStorage({
+//   // cb stands for callback which need to call
+//   destination: function (req, file, cb) {
+//     // cb expexts error as the first argument hence no error specified null
+//     cb(null, 'public/img/users');
+//   },
+//   filename: function (req, file, cb) {
+//     const ext = file.mimetype.split('/')[1];
+//     const imageName = `user-${req.user.id}-${Date.now()}.${ext}`;
+//     cb(null, imageName);
+//   },
+// });
+// produces a buffer
+const multStroage = multer.memoryStorage();
+const multFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true);
+  } else {
+    cb(new AppError('Please upload an image', 400), false);
+  }
+};
+
+const upload = multer({ storage: multStroage, fileFilter: multFilter });
+
+// uploader.single('image') for single images and single value
+// uploader.array('image') for multiple images of same field
+// upload.fields
+exports.updateTourPhoto = upload.fields([
+  {
+    name: 'imageCover',
+    maxCount: 1,
+  },
+  {
+    name: 'images',
+    maxCount: 3,
+  },
+]);
+
+exports.resizeImage = (req, res, next) => {
+  console.log(req.files);
+  next();
+};
 exports.updateQuery = (req, res, next) => {
   req.query.limit = '5';
   req.query.sort = '-ratingsAverage, price';

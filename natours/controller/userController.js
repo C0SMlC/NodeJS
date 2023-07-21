@@ -18,6 +18,7 @@ const handlerFactory = require('./handlerFactory');
 //   },
 // });
 
+// produces a buffer
 const multStroage = multer.memoryStorage();
 const multFilter = (req, file, cb) => {
   if (file.mimetype.startsWith('image')) {
