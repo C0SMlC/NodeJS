@@ -58,7 +58,6 @@ exports.getMe = (req, res, next) => {
 };
 
 exports.updateMe = catchAsync(async (req, res, next) => {
-  console.log(req.file);
   // 1. create error if user tries to update password here
   if (req.body.password || req.body.currentPassword) {
     return next(
