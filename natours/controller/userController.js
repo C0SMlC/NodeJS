@@ -1,22 +1,24 @@
 const multer = require('multer');
+const sharp = require('sharp');
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
 const handlerFactory = require('./handlerFactory');
 
-const multStroage = multer.diskStorage({
-  // cb stands for callback which need to call
-  destination: function (req, file, cb) {
-    // cb expexts error as the first argument hence no error specified null
-    cb(null, 'public/img/users');
-  },
-  filename: function (req, file, cb) {
-    const ext = file.mimetype.split('/')[1];
-    const imageName = `user-${req.user.id}-${Date.now()}.${ext}`;
-    cb(null, imageName);
-  },
-});
+// const multStroage = multer.diskStorage({
+//   // cb stands for callback which need to call
+//   destination: function (req, file, cb) {
+//     // cb expexts error as the first argument hence no error specified null
+//     cb(null, 'public/img/users');
+//   },
+//   filename: function (req, file, cb) {
+//     const ext = file.mimetype.split('/')[1];
+//     const imageName = `user-${req.user.id}-${Date.now()}.${ext}`;
+//     cb(null, imageName);
+//   },
+// });
 
+const multStroage = multer.memoryStorage();
 const multFilter = (req, file, cb) => {
   if (file.mimetype.startsWith('image')) {
     cb(null, true);
@@ -28,6 +30,17 @@ const multFilter = (req, file, cb) => {
 const upload = multer({ storage: multStroage, fileFilter: multFilter });
 
 exports.updateUserPhoto = upload.single('photo');
+
+exports.resizeUserPhoto = (req, res, next) => {
+  if (!req.file) return next();
+  req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
+  sharp(req.file.buffer)
+    .resize(500, 500)
+    .toFormat('jpeg')
+    .jpeg({ quality: 90 })
+    .toFile(`public/img/users/${req.file.filename}`);
+  next();
+};
 const filterFields = (obj, ...includedFileds) => {
   const newObj = {};
   Object.keys(obj).forEach((ele) => {
@@ -45,6 +58,7 @@ exports.getMe = (req, res, next) => {
 };
 
 exports.updateMe = catchAsync(async (req, res, next) => {
+  console.log(req.file);
   // 1. create error if user tries to update password here
   if (req.body.password || req.body.currentPassword) {
     return next(

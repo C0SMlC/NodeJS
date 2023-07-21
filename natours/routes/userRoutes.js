@@ -18,7 +18,11 @@ router.get('/me', userController.getMe, userController.getUser);
 // photo is the name of filed from ehere the file will be uplaoded
 router
   .route('/updateMe')
-  .patch(userController.updateUserPhoto, userController.updateMe);
+  .patch(
+    userController.updateUserPhoto,
+    userController.resizeUserPhoto,
+    userController.updateMe
+  );
 router.route('/deleteMe').delete(userController.deleteMe);
 //
 // router.use(authController.restrict('admin', 'lead-guide'));
