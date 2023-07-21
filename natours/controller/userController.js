@@ -1,8 +1,33 @@
+const multer = require('multer');
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
 const handlerFactory = require('./handlerFactory');
 
+const multStroage = multer.diskStorage({
+  // cb stands for callback which need to call
+  destination: function (req, file, cb) {
+    // cb expexts error as the first argument hence no error specified null
+    cb(null, 'public/img/users');
+  },
+  filename: function (req, file, cb) {
+    const ext = file.mimetype.split('/')[1];
+    const imageName = `user-${req.user.id}-${Date.now()}.${ext}`;
+    cb(null, imageName);
+  },
+});
+
+const multFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true);
+  } else {
+    cb(new AppError('Please upload an image', 400), false);
+  }
+};
+
+const upload = multer({ storage: multStroage, fileFilter: multFilter });
+
+exports.updateUserPhoto = upload.single('photo');
 const filterFields = (obj, ...includedFileds) => {
   const newObj = {};
   Object.keys(obj).forEach((ele) => {
