@@ -1,7 +1,9 @@
 const express = require('express');
+const multer = require('multer');
 const authController = require('../controller/authController');
 const userController = require('../controller/userController');
 
+const upload = multer({ dest: 'public/img/users' });
 const router = express.Router();
 
 router.route('/signup').post(authController.signup);
@@ -15,7 +17,10 @@ router.use(authController.protect);
 
 router.route('/updatePassword').patch(authController.updatePassword);
 router.get('/me', userController.getMe, userController.getUser);
-router.route('/updateMe').patch(userController.updateMe);
+// photo is the name of filed from ehere the file will be uplaoded
+router
+  .route('/updateMe')
+  .patch(upload.single('photo'), userController.updateMe);
 router.route('/deleteMe').delete(userController.deleteMe);
 //
 // router.use(authController.restrict('admin', 'lead-guide'));
