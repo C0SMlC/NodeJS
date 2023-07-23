@@ -6,6 +6,24 @@ const Tour = require('../models/tourModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
 
+const createPriceObject = async (tour) => {
+  try {
+    const price = await stripe.prices.create({
+      unit_amount: tour.price * 100, // Stripe accepts the price in cents, so multiply by 100
+      currency: 'usd', // Set the currency, change to your desired currency if needed
+      product_data: {
+        name: tour.name, // Set the product name to the tour name
+        // other product data...
+      },
+    });
+
+    return price.id; // Return the ID of the created Price object
+  } catch (err) {
+    console.error('Error creating Price object in Stripe:', err);
+    throw err;
+  }
+};
+
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   // 1. get the currently booked tour
   const tour = await Tour.findById(req.params.tourId);
@@ -15,23 +33,12 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 
   // 2. create a checkout session
 
-  const price = await stripe.prices.create({
-    product: `${req.params.tourId}`,
-    unit_amount: 2000,
-    currency: 'usd',
-  });
-
-  console.log(price);
+  const priceId = await createPriceObject(tour);
 
   const session = await stripe.checkout.sessions.create({
     line_items: [
       {
-        // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-        // name: `${tour.name} Tour`,
-        // description: tour.summary,
-        // images: [`https://www.natours.dev/img/tours/${tour.imageCover}`],
-        price: tour.price * 100,
-        // currency: 'usd',
+        price: priceId,
         quantity: 1,
       },
     ],
@@ -46,5 +53,5 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     status: 'success',
     session,
   });
-  next();
+  // next();
 });

@@ -3,9 +3,11 @@
 import { login, logout } from './login.js';
 import { updateData } from './userSettings';
 import { displayMap } from './mapbox.js';
+import { bookTour } from './stripe.js';
 
 const updateDataForm = document.querySelector('.form-user-data');
 const updatePasswordForm = document.querySelector('.form-user-settings');
+const bookBtn = document.querySelector('#book-tour');
 
 if (document.querySelector('.form--login')) {
   const loginBtn = document
@@ -49,5 +51,13 @@ if (updatePasswordForm) {
     const confirmPassword = document.getElementById('password-confirm').value;
 
     updateData({ currentPassword, password, confirmPassword }, 'passowrd');
+  });
+}
+
+if (bookBtn) {
+  bookBtn.addEventListener('click', function (e) {
+    e.target.textContent = 'processing...';
+    const tourId = e.target.dataset.tourid;
+    bookTour(tourId);
   });
 }
