@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const postmarkTransport = require('nodemailer-postmark-transport');
 const pug = require('pug');
 const htmlToText = require('html-to-text');
 
@@ -8,11 +9,20 @@ module.exports = class Email {
     this.userFirstName = user.name.split(' ')[0];
     this.url = url;
     this.from = `Pratik Pendurkar <${process.env.EMAIL_FROM}>`;
-  }
+  }s
 
-  createTransport() {
-    if (process.env.NODE_ENV === 'production') return 1;
-
+  createTransporter() {
+    if (process.env.NODE_ENV === 'production') {
+      // Create a transport object using the Postmark transport layer.
+      return nodemailer.createTransport(
+        postmarkTransport({
+          auth: {
+            apiKey: '6def1c19-b840-460b-bfa7-c4d3464739cf',
+          },
+        })
+      );
+    }
+    // Use the default SMTP transport for non-production environments.
     return nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
       port: process.env.EMAIL_PORT,
@@ -40,7 +50,7 @@ module.exports = class Email {
       // html
     };
     // 3. create a transport and send email
-    await this.createTransport().sendMail(mailOptions);
+    await this.createTransporter().sendMail(mailOptions);
   }
 
   async sendWelcome() {
