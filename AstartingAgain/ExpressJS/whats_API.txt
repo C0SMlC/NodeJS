@@ -1,3 +1,0 @@
-stands for Application Programming Interface
-A piece of software that can be used by anothet piece of software, in order to allow appliacation to talk to each other.
-

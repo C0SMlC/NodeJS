@@ -5,6 +5,7 @@ const Booking = require('../models/bookingModel');
 
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
+const handlerFactory = require('./handlerFactory');
 
 const createPriceObject = async (tour) => {
   try {
@@ -66,3 +67,9 @@ exports.createBookingCheckout = async (req, res, next) => {
 
   res.redirect(`${req.originalUrl.split('?')[0]}`);
 };
+
+exports.createBooking = handlerFactory.createOne(Booking);
+exports.getBooking = handlerFactory.getOne(Booking, { path: 'user' });
+exports.getAllBookings = handlerFactory.getAll(Booking);
+exports.updateBooking = handlerFactory.updateOne(Booking);
+exports.deleteBooking = handlerFactory.deleteOne(Booking);

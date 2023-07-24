@@ -17,6 +17,7 @@ router
   .get(reviewController.getReviews)
   .post(
     authController.restrict('user'),
+    reviewController.hasBooked,
     reviewController.setTourUserIds,
     reviewController.createReview
   );
